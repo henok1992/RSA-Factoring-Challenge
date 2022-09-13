@@ -1,23 +1,26 @@
 #!/usr/bin/python3
-import sys
+
+from sys import argv
+from math import sqrt
 
 
-def factoring():
-    factor_file = sys.argv[1]
-    with open(factor_file) as fd:
-        for number in fd:
-            number = int(number)
-            if number % 2 == 0:
-                    print("{}={}*{}".format(number, number // 2, 2))
-                    continue
-            i = 3
-            while i < number // 2:
-                if number % i == 0:
-                    print("{}={}*{}".format(number, number // i, i))
+def factor():
+    with open(argv[1]) as f:
+        for line in f:
+            num = int(line)
+            print("{:d}=".format(num), end="")
+            if num % 2 == 0:
+                print("{}*2".format(num//2))
+                continue
+            sqn = int(sqrt(num))
+            if sqn % 2 == 0:
+                sqn += 1
+            for i in range(3, sqn + 1, 2):
+                if num % i == 0:
+                    print("{}*{}".format(i, num//i))
                     break
-                i = i + 2
+            if num % i != 0:
+                print("{}={}*1".format(num, num))
 
-            if i == (number // 2) + 1:
-                print("{}={}*{}".format(number, number, 1))
 
-factoring()
+factor()
