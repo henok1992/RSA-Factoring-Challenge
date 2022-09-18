@@ -1,0 +1,67 @@
+#!/usr/bin/python3
+import sys
+
+
+def g(x1, num):
+    return ((x1 ** 2) + 1) % num
+
+
+def gg(h, j):
+    return g(g(h, j), j)
+
+
+def eculid(a, b):
+    while b != 0:
+        remainder = a % b
+        a = b
+        b = remainder
+    if a == 1:
+        return False
+    print(f"{f}={f//a}*{a}")
+    return True
+
+
+def isprime(x):
+    if x < 3 and x > 0:
+        return True
+    count = 0
+    for i in range(2, x):
+        if x % i == 0:
+            count += 1
+    if count > 0:
+        return False
+    else:
+        return True
+
+
+with open(sys.argv[1], "r") as a_file:
+    for line in a_file:
+        strip = int(line.strip())
+        for i in range(2, strip):
+            if i > 9:
+                f = strip
+                x = 0
+                y = 0
+                n = 1
+                flag = 0
+                while n < f:
+                    if y == 0 and x == 0:
+                        x = g(x, f)
+                        y = g(y, f)
+                        continue
+                    else:
+                        x = g(x, f)
+                        y = gg(y, f)
+                    z = abs(y - x)
+                    result = eculid(z, f)
+                    if result is True:
+                        break
+                    if y == x:
+                        break
+                    n += 1
+                break
+            if strip % i == 0:
+                val = int(strip / i)
+                print("{}={}*{}".format(strip, val, i))
+                break
+a_file.close()
